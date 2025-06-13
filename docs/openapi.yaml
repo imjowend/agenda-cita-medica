@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Appointment Service API
+  version: 1.0.0
+paths:
+  /appointment:
+    post:
+      summary: Crea una cita
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentRequest"
+      responses:
+        "201":
+          description: Cita registrada exitosamente
+    get: 
+      summary: Lista citas por insuredId
+      parameters:
+        - in: query  
+          name: insuredId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Lista de citas
+components:
+  schemas:
+    AppointmentRequest:
+      type: object
+      properties:
+        insuredId:
+          type: string
+        scheduleId:
+          type: integer
+        countryISO:
+          type: string
+      required:
+        - insuredId
+        - scheduleId
+        - countryISO
