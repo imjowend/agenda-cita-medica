@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-const stage = '${opt:stage, "dev"}'; // Define stage as a variable
+const stage = '${opt:stage, "dev"}'; 
 
 const serverlessConfiguration: AWS = {
   service: 'appointment-service',
@@ -11,9 +11,9 @@ const serverlessConfiguration: AWS = {
     name: 'aws',
     runtime: 'nodejs20.x',
     region: 'us-east-1',
-    stage: stage, // Use the defined stage variable here
+    stage: stage, 
     environment: {
-      STAGE: stage, // Add STAGE to environment variables
+      STAGE: stage, 
       DYNAMO_DATE_TABLE: '${self:service}-date-${opt:stage, "dev"}',
       DYNAMO_SCHEDULE_DATE_TABLE: '${self:service}-schedule-date-${opt:stage, "dev"}',
       // RDS PE
@@ -164,7 +164,7 @@ const serverlessConfiguration: AWS = {
       ScheduleDateTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
-          TableName: '${self:service}-schedule-date-${opt:stage, "dev"}', // Changed here
+          TableName: '${self:service}-schedule-date-${opt:stage, "dev"}', 
           AttributeDefinitions: [
             { AttributeName: 'scheduleId', AttributeType: 'N' },
             { AttributeName: 'centerId', AttributeType: 'S' },
@@ -202,7 +202,7 @@ const serverlessConfiguration: AWS = {
       AppointmentEventBus: {
         Type: 'AWS::Events::EventBus',
         Properties: {
-          Name: '${self:service}-bus-${opt:stage, "dev"}' // Changed here
+          Name: '${self:service}-bus-${opt:stage, "dev"}' 
         }
       },
 
@@ -271,7 +271,7 @@ const serverlessConfiguration: AWS = {
       AppointmentStatusQueueDLQ: {
         Type: 'AWS::SQS::Queue',
         Properties: {
-          QueueName: '${self:service}-status-dlq-${opt:stage, "dev"}' // Changed here
+          QueueName: '${self:service}-status-dlq-${opt:stage, "dev"}' 
         }
       },
 
@@ -376,7 +376,7 @@ const serverlessConfiguration: AWS = {
   custom: {
     xrayTracingEnabled: true,
     tags: {
-      Environment: '${opt:stage, "dev"}', // Changed here
+      Environment: '${opt:stage, "dev"}', 
       Project: '${self:service}',
       Owner: 'appointment-team'
     }

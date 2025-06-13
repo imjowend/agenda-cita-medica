@@ -17,7 +17,6 @@ export const httpHandler: APIGatewayProxyHandler = async (event) => {
     if (event.httpMethod === 'POST' && event.path === '/appointment') {
       const requestData = JSON.parse(event.body!) as DateRequest;
       
-      // Validación de campos requeridos
       if (!requestData.insuredId || !requestData.scheduleId || !requestData.countryISO) {
         return {
           statusCode: 400,
@@ -27,10 +26,8 @@ export const httpHandler: APIGatewayProxyHandler = async (event) => {
         };
       }
 
-      // 1. Registrar en DynamoDB (status se agrega en registerDate)
       const data = await registerDate(requestData, dateRepo);
 
-      // 2. Enviar a SNS
       await sns.send(new PublishCommand({
         TopicArn: process.env.APPOINTMENT_TOPIC_ARN,
         Message: JSON.stringify(data),
@@ -83,11 +80,9 @@ export const sqsHandler: SQSHandler = async (event) => {
         continue;
       }
 
-      // 1. Registrar ScheduleDate
       await createScheduleDate(scheduleId, scheduleRepo);
       console.log(`ScheduleDate created for scheduleId: ${scheduleId}`);
 
-      // 2. Actualizar estado de la cita a "completed" usando insuredId
       await dateRepo.updateStatusToCompleted(insuredId);
       console.log(`Appointment status updated to completed for insuredId: ${insuredId}`);
     }

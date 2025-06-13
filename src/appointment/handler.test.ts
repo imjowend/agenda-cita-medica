@@ -12,7 +12,7 @@ describe('httpHandler', () => {
         const event = {
             httpMethod: 'POST',
             path: '/appointment',
-            body: JSON.stringify({ insuredId: '1' }), // faltan campos
+            body: JSON.stringify({ insuredId: '1' }), 
         } as any;
 
         const result = await httpHandler(event, mockContext, mockCallback) as APIGatewayProxyResult;

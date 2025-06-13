@@ -18,11 +18,9 @@ export const sqsHandler = async (event: SQSEvent): Promise<void> => {
         countryISO: body.countryISO
       });
 
-      // 1. Guardar en RDS
       await saveToRds(body, repository);
       console.log('🇵🇪 PE - Datos guardados en RDS exitosamente');
 
-      // 2. Enviar conformidad a EventBridge
       const eventBridgeParams = {
         Entries: [
           {
@@ -31,7 +29,7 @@ export const sqsHandler = async (event: SQSEvent): Promise<void> => {
             Detail: JSON.stringify({
               insuredId: body.insuredId,
               scheduleId: body.scheduleId,
-              status: true // true indica confirmación exitosa
+              status: true 
             }),
             EventBusName: process.env.EVENT_BUS_NAME || 'default'
           }
